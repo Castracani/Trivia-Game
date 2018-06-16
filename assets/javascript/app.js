@@ -7,7 +7,8 @@ var unanswered = 0;
 
 //Starts on clicking the button initially displayed//
 $("#triviaStart").on("click", function() {
-    
+
+    $("#triviaStart").hide();    
     //makes it so the results function is exectued 30 seconds after the intial button is clicked
     //setTimeout(results, 1000 * 30);//
 
@@ -201,7 +202,11 @@ $("#triviaStart").on("click", function() {
 });
 
 //On-click Function for the Submit button//
-$("#submitBtn").on("click", function(finish) {
+$("#submitBtn").submit("click", function(finish) {
+
+    finish.preventDefault();
+
+    $(".form").submit();
 
     console.log("please work");
 
