@@ -202,11 +202,9 @@ $("#triviaStart").on("click", function() {
 });
 
 //On-click Function for the Submit button//
-$("#submitBtn").submit("click", function(finish) {
+$(".form").on("submit", function(finish) {
 
     finish.preventDefault();
-
-    $(".form").submit();
 
     console.log("please work");
 
