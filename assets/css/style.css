@@ -1,5 +1,29 @@
+
+@import url('https://fonts.googleapis.com/css?family=Asul|Fruktur');
+
+body {
+    background-image: url("../images/connectwork.png");
+}
+
 #main-container {
     max-width: 1200px;
+    font-size: 20px;
     margin: auto;
+    color: #de8ef2;
     text-align: center;
+    font-family: 'Asul', sans-serif;
 }
+
+#form1, {
+    font-family: 'Asul', sans-serif;
+    color: #de8ef2;
+}
+
+#submitBtn,
+#triviaStart {
+    font-size: 22px;
+    padding: 10px 12px;
+    margin-top: 15px;
+    font-family: 'Asul', sans-serif;
+}
+

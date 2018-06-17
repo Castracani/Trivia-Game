@@ -2,6 +2,12 @@
 var correct = 0;
 var incorrect = 0;
 var unanswered = 0;
+var total = 6;
+var secondsLeft = 60;
+var intervalId;
+var timerRunning = false;
+
+$(function() {
 
 
 
@@ -11,6 +17,8 @@ $("#triviaStart").on("click", function() {
     $("#triviaStart").hide();    
     //makes it so the results function is exectued 30 seconds after the intial button is clicked
     //setTimeout(results, 1000 * 30);//
+
+    $("#timer").append("<h3>Time Remaining: " + secondsLeft + "</h3");
 
     //creates a new h2 element which will be unique to this question//
     var question1 = $("<h2>");
@@ -34,12 +42,15 @@ $("#triviaStart").on("click", function() {
     $(form1).append('<input type="radio" name="public-support" value="wrong" /> 60% before, 99% afterwards',
                     '<input type="radio" name="public-support" value="wrong" /> 80% before, 99% afterwards',
                     '<input type="radio" name="public-support" value="right" /> 20% before, 99% afterwards',
-                    '<input type="radio" name="public-support" value="wrong" /> 20% before, 80% afterwards');
+                    '<input type="radio" name="public-support" value="wrong" /> 20% before, 80% afterwards <br />');
 
     //appending the form to the <h2> div//
     $(form1).insertAfter(question1);
 
     //this will repeat for... quite a bit. There HAS to be someway of making this DRY. I'll ruminate on it after I get something to turn in.//
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------//
 
     //creates a new h2 element which will be unique to this question//
     var question2 = $("<h2>");
@@ -53,20 +64,14 @@ $("#triviaStart").on("click", function() {
    //appending the question to the #main-section div//
     $("#main-section").append(question2);
 
-    //Now the form for the buttons is created//
-    var form2 = $("<form></form>");
-    
-    //adding an ID and class to the form//
-    $(form2).attr('id', 'form2', 'class', 'form');
-
     //adding the buttons to the form//
-    $(form2).append('<input type="radio" name="fleet-age" value="wrong" /> 2 years or newer',
-                    '<input type="radio" name="fleet-age" value="wrong" /> 2 - 5 years old',
-                    '<input type="radio" name="fleet-age" value="wrong" /> 5 - 20 years old',
-                    '<input type="radio" name="fleet-age" value="right" /> 20 years or older');
+    var answers2 = '<input type="radio" name="fleet-age" value="wrong" /> 2 years or newer' +
+                    '<input type="radio" name="fleet-age" value="wrong" /> 2 - 5 years old' +
+                    '<input type="radio" name="fleet-age" value="wrong" /> 5 - 20 years old' +
+                    '<input type="radio" name="fleet-age" value="right" /> 20 years or older <br />';
 
     //appending the form to the <h2> div//
-    $(form2).insertAfter(question2);
+    $(answers2).insertAfter(question2);
 
     //-----------------------------------------------------------------------------------------------------//
 
@@ -82,20 +87,14 @@ $("#triviaStart").on("click", function() {
    //appending the question to the #main-section div//
     $("#main-section").append(question3);
 
-    //Now the form for the buttons is created//
-    var form3 = $("<form></form>");
-    
-    //adding an ID and class to the form//
-    $(form3).attr('id', 'form3', 'class', 'form');
-
     //adding the buttons to the form//
-    $(form3).append('<input type="radio" name="world-power" value="wrong" /> Japan',
-                    '<input type="radio" name="world-power" value="wrong" /> Russia',
-                    '<input type="radio" name="world-power" value="wrong" /> Germany',
-                    '<input type="radio" name="world-power" value="right" /> U.S.A.');
+    var answers3 =  '<input type="radio" name="world-power" value="wrong" /> Japan' +
+                    '<input type="radio" name="world-power" value="wrong" /> Russia' +
+                    '<input type="radio" name="world-power" value="wrong" /> Germany' +
+                    '<input type="radio" name="world-power" value="right" /> U.S.A. <br />';
 
     //appending the form to the <h2> div//
-    $(form3).insertAfter(question3);
+    $(answers3).insertAfter(question3);
 
     //--------------------------------------------------------------------------------------------------------//
 
@@ -111,20 +110,14 @@ $("#triviaStart").on("click", function() {
    //appending the question to the #main-section div//
     $("#main-section").append(question4);
 
-    //Now the form for the buttons is created//
-    var form4 = $("<form></form>");
-    
-    //adding an ID and class to the form//
-    $(form4).attr('id', 'form4', 'class', 'form');
-
     //adding the buttons to the form//
-    $(form4).append('<input type="radio" name="axis-in-name" value="right" /> Never',
-                    '<input type="radio" name="axis-in-name" value="wrong" /> Rarely',
-                    '<input type="radio" name="axis-in-name" value="wrong" /> Often',
-                    '<input type="radio" name="axis-in-name" value="wrong" /> All of the time');
+    var answers4 =  '<input type="radio" name="axis-in-name" value="right" /> Never' +
+                    '<input type="radio" name="axis-in-name" value="wrong" /> Rarely' +
+                    '<input type="radio" name="axis-in-name" value="wrong" /> Often' +
+                    '<input type="radio" name="axis-in-name" value="wrong" /> All of the time <br />';
 
     //appending the form to the <h2> div//
-    $(form4).insertAfter(question4);
+    $(answers4).insertAfter(question4);
 
     //------------------------------------------------------------------------------------------------------//
 
@@ -140,22 +133,16 @@ $("#triviaStart").on("click", function() {
    //appending the question to the #main-section div//
     $("#main-section").append(question5);
 
-    //Now the form for the buttons is created//
-    var form5 = $("<form></form>");
-    
-    //adding an ID and class to the form//
-    $(form5).attr('id', 'form5', 'class', 'form');
-
     //adding the buttons to the form//
-    $(form5).append('<input type="radio" name="leader" value="wrong" /> Franklin D. Roosevelt',
-                    '<input type="radio" name="leader" value="right" /> Joseph Stalin',
-                    '<input type="radio" name="leader" value="wrong" /> Winston Churchill',
-                    '<input type="radio" name="leader" value="wrong" /> Hideki Tojo',
-                    '<input type="radio" name="leader" value="wrong" /> Adolf Hitler',
-                    '<input type="radio" name="leader" value="wrong" /> Benito Mussolini');
+    var answers5 =  '<input type="radio" name="leader" value="wrong" /> Franklin D. Roosevelt' +
+                    '<input type="radio" name="leader" value="right" /> Joseph Stalin' +
+                    '<input type="radio" name="leader" value="wrong" /> Winston Churchill' +
+                    '<input type="radio" name="leader" value="wrong" /> Hideki Tojo' +
+                    '<input type="radio" name="leader" value="wrong" /> Adolf Hitler' +
+                    '<input type="radio" name="leader" value="wrong" /> Benito Mussolini <br />';
 
     //appending the form to the <h2> div//
-    $(form5).insertAfter(question5);
+    $(answers5).insertAfter(question5);
 
     //----------------------------------------------------------------------------------------------------------//
 
@@ -171,74 +158,82 @@ $("#triviaStart").on("click", function() {
    //appending the question to the #main-section div//
     $("#main-section").append(question6);
 
-    //Now the form for the buttons is created//
-    var form6 = $("<form></form>");
-    
-    //adding an ID and class to the form//
-    $(form6).attr('id', 'form6', 'class', 'form');
-
     //adding the buttons to the form//
-    $(form6).append('<input type="radio" name="religious-influence value="right" /> Non-Denominational Protestantism',
-                    '<input type="radio" name="religious-influence value="wrong" /> Baptism',
-                    '<input type="radio" name="religious-influence value="wrong" /> Pentecostalism',
-                    '<input type="radio" name="religious-influence value="wrong" /> Methodism',
-                    '<input type="radio" name="religious-influence value="wrong" /> Catholicism');
+    var answers6 =  '<input type="radio" name="religious-influence value="right" /> Non-Denominational Protestantism' +
+                    '<input type="radio" name="religious-influence value="wrong" /> Baptism' +
+                    '<input type="radio" name="religious-influence value="wrong" /> Pentecostalism' +
+                    '<input type="radio" name="religious-influence value="wrong" /> Methodism' +
+                    '<input type="radio" name="religious-influence value="wrong" /> Catholicism <br />';
 
     //appending the form to the <h2> div//
-    $(form6).insertAfter(question6);
+    $(answers6).insertAfter(question6);
 
     //-----------------------------------------------------------------------------------------------------------------//
 
     //Finally done! definitely needs to be DRY though.//
 
     //Creating the "Submit button"
-    var submitForm = $("<form></form>");
-    $(submitForm).append('<input type="submit" value="How did you do?" id="submitBtn"  />');
-    $(submitForm).insertAfter(form6);
+    //var submitForm = $("<form></form>");
+    var finalSubmitBtn = $('<input type="submit" value="How did you do?" id="submitBtn"  />');
+    $("#main-section").append(finalSubmitBtn);
 
     //Conditional statements//
 
     console.log("Is this working?");
+
+    timerStart();
 });
 
+//----------------------------------------------------------------------------------//
+
 //On-click Function for the Submit button//
-$(".form").on("submit", function(finish) {
+$(document).on("click", "#submitBtn",  function (finish) {
 
-    finish.preventDefault();
+    finish.preventDefault(); 
+    
+    $("#main-section").empty();
+    
+    timerStop();
+    
+    console.log(this);
 
-    console.log("please work");
+    //if no button is selected for a field, the unanswered score increases by one.
+    //"this" here ought to be referencing whichever form was chosen.
+    //Was entirely unable to properly grab the values here?
+   // if (($(".form")['public-support']).val() //|| (!$(".form")['fleet-age']).val() || (!$(".form")['world-power']).val() ||
+        // (!$(".form")['axis-in-name']).val() || (!$(".form")['leader']).val() || (!$(".form")['religious-influence']).val()) {
 
-    /*if no button is selected for a field, the unanswered score increases by one.
-    "this" here ought to be referencing whichever form was chosen.*/
-    if ((!this['public-support'].value) || (!this['fleet-age'].value) || (!this['world-power'].value) ||
-        (!this['axis-in-name'].value) || (!this['leader'].value) || (!this['religious-influence'].value)) {
-
+    console.log("working?")
+    console.log($('input[value="right"]').prop("checked", true))
         //increments unanswered variable by 1; not displaying here yet!//
-        unanswered++;
-    }
+        // unanswered++;
+    
 
     //if a button with the value of "wrong" is checked on submission, the incorrect score increases by one.//
-    else if ($('input[value=wrong]').prop("checked")) {
+    if ($('input[value="wrong"]').prop("checked", true)) {
         incorrect++;
     }
 
     //if a button with the value of "right" is checked on submission, correct score increases by one.
-    else if ($('input[value=right]').prop("checked")) {
+    else if ($('input[value="right"]').prop("checked", true)) {
         correct++;
     }
 
+    //Otherwise, calculates the number of unanswered questions//
+    else {
+        unanswered = total - correct - incorrect;
+    }
 
-    /*all of the above values are to be displayed on the Web browser now.
-    First off, we clear the main section of all text.*/
+    //all of the above values are to be displayed on the Web browser now.
 
-    //Then we create a new H3 div telling the person they're done.
+    //We create a new H3 div telling the person they're done.//
     var finalDiv = $("<h3>");
 
     //give this div a unique ID//
     finalDiv.attr('id', 'finalDiv')
 
     //Add text to the H3 about how they're done taking the quiz.//
-    $(finalDiv).text("Now, let's see how well you know you're World War II trivia...");
+    $(finalDiv).text("Now, let's see how well you know your World War II trivia...");
 
     //Appends this to the #main-section div//
     $("#main-section").append(finalDiv);
@@ -254,5 +249,32 @@ $(".form").on("submit", function(finish) {
 
 });
 
-//Conditional statements//
+//Function to start timer//
+function timerStart() {
+    //if timer isn't running, invokes the timerDecrease function every second and sets the running value to true//
+	if (!timerRunning) {
+		intervalId = setInterval(timerDecrease, 1000);
+		running = true;
+	}
+}
+//Function to decrease timer//
+//decrease secondsLeft by 1, and inserts it into the #timer section of HTML//
+function timerDecrease() {
+    secondsLeft--;
+    $("#timer").html("<h3>Time remaining: " + secondsLeft + "</h3>");
 
+    //Unable to invoke the onclick event when timer reaches 0, keeps on saying finish is undefined//
+    if (secondsLeft === 0) {
+        stop();
+        //finish();//
+    }
+    
+}
+//Function to stop timer//
+function timerStop() {
+	running = false;
+	clearInterval(intervalId);
+	$("#timer").empty()
+}
+
+});
